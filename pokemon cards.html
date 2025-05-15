@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Pokémon Card Shop</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background-color: #f5f5f5;
+      margin: 0;
+      padding: 0;
+    }
+
+    header {
+      background-color: #ffcb05;
+      color: #2a75bb;
+      padding: 1rem;
+      text-align: center;
+      font-size: 2rem;
+      font-weight: bold;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+    }
+
+    .container {
+      padding: 2rem;
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+      gap: 2rem;
+    }
+
+    .card {
+      background: white;
+      border-radius: 15px;
+      padding: 1rem;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+      transition: transform 0.3s ease;
+      text-align: center;
+      cursor: pointer;
+    }
+
+    .card:hover {
+      transform: scale(1.05);
+    }
+
+    .pokemon-img {
+      width: 100%;
+      max-height: 150px;
+      object-fit: contain;
+    }
+
+    .color-tag {
+      padding: 0.3rem 0.6rem;
+      border-radius: 10px;
+      font-size: 0.9rem;
+      color: white;
+      margin-bottom: 0.5rem;
+      display: inline-block;
+    }
+
+    .red { background-color: #e74c3c; }
+    .blue { background-color: #3498db; }
+    .green { background-color: #2ecc71; }
+    .yellow { background-color: #f1c40f; }
+    .gold { background-color: #ffd700; color: black; }
+    .black { background-color: #000000; }
+    .purple { background-color: #9b59b6; }
+    .orange { background-color: #e67e22; }
+    .silver { background-color: #bdc3c7; color: black; }
+    .pink { background-color: #ff69b4; }
+    .brown { background-color: #8b4513; }
+    .cyan { background-color: #00bcd4; }
+    .lime { background-color: #cddc39; color: black; }
+    .teal { background-color: #008080; }
+    .maroon { background-color: #800000; }
+    .navy { background-color: #000080; }
+    .olive { background-color: #808000; color: black; }
+    .coral { background-color: #ff7f50; }
+    .indigo { background-color: #4b0082; }
+    .magenta { background-color: #ff00ff; }
+
+    .price {
+      font-weight: bold;
+      font-size: 1.2rem;
+      margin: 0.5rem 0;
+    }
+
+    button {
+      background-color: #2a75bb;
+      color: white;
+      border: none;
+      padding: 0.5rem 1rem;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+
+    button:hover {
+      background-color: #1e5ba0;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    Pokémon Card Shop
+  </header>
+
+  <div class="container" id="card-container"></div>
+
+  <script>
+    const colorLinks = {
+      red: 'https://www.flipkart.com/search?q=red+pokemon+card',
+      blue: 'https://www.flipkart.com/search?q=blue+pokemon+card',
+      green: 'https://www.flipkart.com/search?q=green+pokemon+card',
+      yellow: 'https://www.flipkart.com/search?q=yellow+pokemon+card',
+      gold: 'https://www.flipkart.com/search?q=gold+pokemon+card',
+      black: 'https://www.flipkart.com/search?q=black+pokemon+card',
+      purple: 'https://www.flipkart.com/search?q=purple+pokemon+card',
+      orange: 'https://www.flipkart.com/search?q=orange+pokemon+card',
+      silver: 'https://www.flipkart.com/search?q=silver+pokemon+card',
+      pink: 'https://www.flipkart.com/search?q=pink+pokemon+card',
+      brown: 'https://www.flipkart.com/search?q=brown+pokemon+card',
+      cyan: 'https://www.flipkart.com/search?q=cyan+pokemon+card',
+      lime: 'https://www.flipkart.com/search?q=lime+pokemon+card',
+      teal: 'https://www.flipkart.com/search?q=teal+pokemon+card',
+      maroon: 'https://www.flipkart.com/search?q=maroon+pokemon+card',
+      navy: 'https://www.flipkart.com/search?q=navy+pokemon+card',
+      olive: 'https://www.flipkart.com/search?q=olive+pokemon+card',
+      coral: 'https://www.flipkart.com/search?q=coral+pokemon+card',
+      indigo: 'https://www.flipkart.com/search?q=indigo+pokemon+card',
+      magenta: 'https://www.flipkart.com/search?q=magenta+pokemon+card'
+    };
+
+    const pokemonData = [
+      { name: 'Charizard', img: 'https://img.pokemondb.net/artwork/large/charizard.jpg' },
+      { name: 'Blastoise', img: 'https://img.pokemondb.net/artwork/large/blastoise.jpg' },
+      { name: 'Venusaur', img: 'https://img.pokemondb.net/artwork/large/venusaur.jpg' },
+      { name: 'Pikachu', img: 'https://img.pokemondb.net/artwork/large/pikachu.jpg' },
+      { name: 'Arceus', img: 'https://img.pokemondb.net/artwork/large/arceus.jpg' },
+      { name: 'Mewtwo', img: 'https://img.pokemondb.net/artwork/large/mewtwo.jpg' },
+      { name: 'Gengar', img: 'https://img.pokemondb.net/artwork/large/gengar.jpg' },
+      { name: 'Dragonite', img: 'https://img.pokemondb.net/artwork/large/dragonite.jpg' },
+      { name: 'Lucario', img: 'https://img.pokemondb.net/artwork/large/lucario.jpg' },
+      { name: 'Jigglypuff', img: 'https://img.pokemondb.net/artwork/large/jigglypuff.jpg' },
+      { name: 'Eevee', img: 'https://img.pokemondb.net/artwork/large/eevee.jpg' },
+      { name: 'Piplup', img: 'https://img.pokemondb.net/artwork/large/piplup.jpg' },
+      { name: 'Bulbasaur', img: 'https://img.pokemondb.net/artwork/large/bulbasaur.jpg' },
+      { name: 'Squirtle', img: 'https://img.pokemondb.net/artwork/large/squirtle.jpg' },
+      { name: 'Machamp', img: 'https://img.pokemondb.net/artwork/large/machamp.jpg' },
+      { name: 'Snorlax', img: 'https://img.pokemondb.net/artwork/large/snorlax.jpg' },
+      { name: 'Gardevoir', img: 'https://img.pokemondb.net/artwork/large/gardevoir.jpg' },
+      { name: 'Lapras', img: 'https://img.pokemondb.net/artwork/large/lapras.jpg' },
+      { name: 'Garchomp', img: 'https://img.pokemondb.net/artwork/large/garchomp.jpg' },
+      { name: 'Togekiss', img: 'https://img.pokemondb.net/artwork/large/togekiss.jpg' }
+    ];
+
+    const colors = Object.keys(colorLinks);
+    const container = document.getElementById("card-container");
+
+    colors.forEach((color, index) => {
+      const pokemon = pokemonData[index];
+      const cardElement = document.createElement("div");
+      cardElement.className = "card";
+      cardElement.onclick = () => window.open(colorLinks[color], '_blank');
+
+      cardElement.innerHTML = `
+        <span class="color-tag ${color}">
+          ${color.toUpperCase()}
+        </span>
+        <img class="pokemon-img" src="${pokemon.img}" alt="${pokemon.name}">
+        <h3>${pokemon.name}</h3>
+        <p class="price">₹${Math.floor(Math.random() * 1000) + 300}</p>
+        <button>Buy</button>
+      `;
+
+      container.appendChild(cardElement);
+    });
+  </script>
+</body>
+</html>
